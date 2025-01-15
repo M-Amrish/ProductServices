@@ -3,6 +3,8 @@ package dev.amrish.productservices.services;
 import dev.amrish.productservices.dtos.FakeStoreProductDto;
 import dev.amrish.productservices.models.Category;
 import dev.amrish.productservices.models.Product;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,7 +29,7 @@ public class FakeStoreProductService implements ProductService{
                        url,
                        FakeStoreProductDto.class
                );
-
+        // Converting from Fakestore to Product
         return convertFakeStoreDtoToProduct(fakeStoreProductDto);
     }
 
@@ -47,14 +49,41 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public Product deleteProduct(Long id) {
 
+        String url = "https://fakestoreapi.com/products/"+ id;
+
+          ResponseEntity<FakeStoreProductDto> responseEntity =  restTemplate.exchange(
+                    url,
+                    HttpMethod.DELETE,
+                    null,
+                    FakeStoreProductDto.class
+            );
+        return convertFakeStoreDtoToProduct(responseEntity.getBody());
     }
+
 
     @Override
-    public void updateProduct(Long id, Product product) {
+    public Product updateProduct(String title, String description, String image, String category, double price) {
 
+            FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+
+            fakeStoreProductDto.setTitle(title);
+            fakeStoreProductDto.setDescription(description);
+            fakeStoreProductDto.setImage(image);
+            fakeStoreProductDto.setCategory(category);
+            fakeStoreProductDto.setPrice(price);
+
+           FakeStoreProductDto response =  restTemplate.postForObject(
+                    "https://fakestoreapi.com/products",
+                    fakeStoreProductDto,
+                    FakeStoreProductDto.class
+            );
+
+
+        return convertFakeStoreDtoToProduct(response);
     }
+
 
     private Product convertFakeStoreDtoToProduct(FakeStoreProductDto fakeStoreProductDto){
         Product product = new Product();

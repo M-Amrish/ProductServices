@@ -11,7 +11,7 @@ public interface ProductService {
 
     List<Product> getAllProduct();
 
-    void deleteProduct(Long id);
+    Product deleteProduct(Long id);
 
-    void updateProduct(Long id, Product product);
+    Product updateProduct(String title, String description, String image, String category, double price);
 }

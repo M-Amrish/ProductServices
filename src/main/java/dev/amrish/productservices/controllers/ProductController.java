@@ -1,5 +1,6 @@
 package dev.amrish.productservices.controllers;
 
+import dev.amrish.productservices.dtos.CreateProductDto;
 import dev.amrish.productservices.models.Product;
 import dev.amrish.productservices.services.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,32 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
-    public void createProduct(){
+    // POST - Create Product
+    @PostMapping
+    public Product createProduct(@RequestBody CreateProductDto createProductDto){
+        return  productService.updateProduct(
+                createProductDto.getTitle(),
+                createProductDto.getDescription(),
+                createProductDto.getImage(),
+                createProductDto.getCategory(),
+                createProductDto.getPrice()
+        );
+    }
+
+
+    @PutMapping("/{id}")
+    public void updateProduct(){
 
     }
 
-    public void deleteProduct(){
 
+    // DELETE - Delete Product
+    @DeleteMapping("/{id}")
+    public Product deleteProduct(@PathVariable("id") Long id){
+
+        return productService.deleteProduct(
+                id
+                );
     }
 
 
