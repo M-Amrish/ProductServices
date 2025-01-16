@@ -1,8 +1,12 @@
 package dev.amrish.productservices.controllers;
 
 import dev.amrish.productservices.dtos.CreateProductDto;
+import dev.amrish.productservices.dtos.ErrorDto;
+import dev.amrish.productservices.exception.ProductNotFoundException;
 import dev.amrish.productservices.models.Product;
 import dev.amrish.productservices.services.ProductService;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,11 +65,16 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public Product deleteProduct(@PathVariable("id") Long id){
 
-        return productService.deleteProduct(
-                id
-                );
+        return productService.deleteProduct(id);
     }
 
+//    @ExceptionHandler(NullPointerException.class)
+//    public ResponseEntity<ErrorDto> handleNullPointerException(){
+//        ErrorDto errorDto = new ErrorDto();
+//        errorDto.setMessage("Something went wrong. Please try again");
+//
+//        return new ResponseEntity<>(errorDto,HttpStatusCode.valueOf(404));
+//    }
 
 
 }
