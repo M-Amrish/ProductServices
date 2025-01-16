@@ -41,10 +41,19 @@ public class ProductController {
         );
     }
 
-
+    // Put -  Replace the entire Product object.
     @PutMapping("/{id}")
-    public void updateProduct(){
+    public Product updateProduct(@PathVariable Long id, @RequestBody CreateProductDto createProductDto){
 
+        return productService.replaceProduct(
+                id,
+                createProductDto.getTitle(),
+                createProductDto.getDescription(),
+                createProductDto.getImage(),
+                createProductDto.getCategory(),
+                createProductDto.getPrice()
+
+        );
     }
 
 

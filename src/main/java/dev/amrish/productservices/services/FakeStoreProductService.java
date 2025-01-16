@@ -3,6 +3,7 @@ package dev.amrish.productservices.services;
 import dev.amrish.productservices.dtos.FakeStoreProductDto;
 import dev.amrish.productservices.models.Category;
 import dev.amrish.productservices.models.Product;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,28 @@ public class FakeStoreProductService implements ProductService{
 
 
         return convertFakeStoreDtoToProduct(response);
+    }
+
+    @Override
+    public Product replaceProduct(Long id,String title, String description, String image, String category, double price) {
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setTitle(title);
+        fakeStoreProductDto.setDescription(description);
+        fakeStoreProductDto.setImage(image);
+        fakeStoreProductDto.setCategory(category);
+        fakeStoreProductDto.setPrice(price);
+
+        HttpEntity<FakeStoreProductDto> http = new HttpEntity<FakeStoreProductDto>(fakeStoreProductDto);
+
+       ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate
+               .exchange(
+                       "https://fakestoreapi.com/products/"+id,
+                        HttpMethod.PUT,
+                       http,
+                       FakeStoreProductDto.class,
+                       id
+               );
+        return convertFakeStoreDtoToProduct(responseEntity.getBody());
     }
 
 
