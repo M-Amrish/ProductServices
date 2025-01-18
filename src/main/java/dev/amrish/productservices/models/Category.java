@@ -1,6 +1,8 @@
 package dev.amrish.productservices.models;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +10,12 @@ import java.util.List;
 
 @Getter
 @Setter
-
+@Entity // Mapped to a database table
 public class Category extends BaseModel {
 
     private String title;
 
+    @OneToMany
     private List<Product> products;
 
     public String getTitle() {
