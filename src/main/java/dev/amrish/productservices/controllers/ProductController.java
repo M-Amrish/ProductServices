@@ -5,6 +5,7 @@ import dev.amrish.productservices.dtos.ErrorDto;
 import dev.amrish.productservices.exception.ProductNotFoundException;
 import dev.amrish.productservices.models.Product;
 import dev.amrish.productservices.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ProductController {
 
     private ProductService productService;
 
-    ProductController(ProductService productService){
+    ProductController(@Qualifier("selfProductService") ProductService productService){
         this.productService = productService;
     }
     // Jackson --> to convert Java objects to JSON (serialization)

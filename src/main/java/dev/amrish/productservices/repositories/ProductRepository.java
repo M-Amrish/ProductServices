@@ -1,7 +1,14 @@
 package dev.amrish.productservices.repositories;
 
-import dev.amrish.productservices.models.Category;
+import dev.amrish.productservices.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepository extends JpaRepository<Category, Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    Optional<Product> findById(Long id);
+
+    List<Product> findAllBy();
 }

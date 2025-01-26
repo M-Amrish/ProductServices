@@ -1,6 +1,8 @@
 package dev.amrish.productservices.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -15,7 +17,10 @@ public class Category extends BaseModel {
 
     private String title;
 
-    @OneToMany
+    // often deal with relationships like @OneToMany or @ManyToOne.
+    // These can cause infinite recursion during JSON serialization.
+    @JsonIgnore// to avoid infinite loops.
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Product> products;
 
     public String getTitle() {
